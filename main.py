@@ -1,7 +1,6 @@
 import joblib
 import numpy as np
 import pandas as pd
-import random
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
@@ -49,10 +48,13 @@ def predict(request: PredictionRequest):
     Predict endpoint to predict the sentiment of the provided review text.
     Returns a JSON object with the predicted sentiment, "positive" or "negative"
     """
+    if not request.text or request.text.strip() == "":
+        raise HTTPException(status_code=400, detail="Cannot complete request, missing body text")
+    
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
     try:
-        prediction = model.predict(request.text)
+        prediction = model.predict([request.text])
         return {"sentiment": prediction[0]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error predicting sentiment: {e}")
@@ -64,12 +66,15 @@ def predict_with_probabilities(request: PredictionRequest):
     Predict probability endpoint to predict the probability of the sentiment of the provided review text.
     Returns a JSON object with the predicted probability of the sentiment, "positive" or "negative"
     """
+    if not request.text or request.text.strip() == "":
+        raise HTTPException(status_code=400, detail="Cannot complete request, missing body text")
+    
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
 
     try:
-        probabilities = model.predict_proba(request.text)
-        prediction = model.predict(request.text)
+        probabilities = model.predict_proba([request.text])
+        prediction = model.predict([request.text])
         prob = probabilities[0][0] if prediction[0] == "negative" else probabilities[0][1]
         return {"sentiment": prediction[0], "probability": prob}
     except Exception as e:
