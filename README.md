@@ -1,5 +1,5 @@
 # IMDB Sentiment Analysis API
-This repo contains the code to load a movie review sentiment analysis classification model and endpoints defined below.
+This repo contains the code to load a movie review sentiment analysis classification model and endpoints defined below to interact with the model and training data.
 
 ## Endpoints
 The API has 4 endpoints:
