@@ -35,7 +35,7 @@ Predict probability endpoint to predict the probability of the sentiment of the 
 - method: GET
 - description:<br>
 Training example endpoint to return a training example from the dataset Returns a JSON object with the text of a random review from the IMDB csv file.
-- response:
+- response:<br>
 "review": The random review selected from the csv file.
 
 ## Prerequisites
