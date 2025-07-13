@@ -7,7 +7,7 @@ build:
 
 run:
 	@echo "Running Docker container: $(IMAGE_NAME) on port $(PORT)"
-	docker run -p $(PORT):8000 $(IMAGE_NAME)
+	docker run --rm -p $(PORT):8000 $(IMAGE_NAME)
 
 clean:
 	@echo "Removing Docker image: $(IMAGE_NAME)"
